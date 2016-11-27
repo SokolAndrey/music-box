@@ -1,21 +1,3 @@
-/*
-  Blink
-  Turns on an LED on for one second, then off for one second, repeatedly.
-
-  Most Arduinos have an on-board LED you can control. On the UNO, MEGA and ZERO 
-  it is attached to digital pin 13, on MKR1000 on pin 6. LED_BUILTIN takes care 
-  of use the correct LED pin whatever is the board used.
-  If you want to know what pin the on-board LED is connected to on your Arduino model, check
-  the Technical Specs of your board  at https://www.arduino.cc/en/Main/Products
-  
-  This example code is in the public domain.
-
-  modified 8 May 2014
-  by Scott Fitzgerald
-  
-  modified 2 Sep 2016
-  by Arturo Guadalupi
-*/
 // Notes
 #define  c     3830    // 261 Hz 
 #define  d     3400    // 294 Hz 
@@ -41,38 +23,29 @@
 #define l8 8
 #define l16 4
 
+// The port for connection
 int speakerOut = 2;
 
+// Set the pins
 void setup() { 
   pinMode(speakerOut, OUTPUT);
 }
-
-// melodies
-/* Jingle Bells
- * int melody[] = {e,e,e,   e,e,e,    e,g,c,d,      e,    f,f,f,f,      f,e,e,e,e,        e,d,d,e,       d,g,    e,e,e,    e,e,e,     e,g,c,d,      e,  f,f,f,f,     f,e,e,e,e,      g,g,f,d,     c,  R, R};
- * int beats[]  = {l4,l4,l2, l4,l4,l2, l4,l4,l3,l8, l1,   l4,l4,l3,l8,  l4,l4,l4,l8,l8,   l4,l4,l4,l4,   l2,l2,  l4,l4,l2, l4,l4,l2,  l4,l4,l3,l8,  l1, l4,l4,l4,l4, l4,l4,l4,l8,l8, l4,l4,l4,l4, l1, l1,l1};
-*/
-
-/* We wish you a MC
- * int melody[] = {d,   g,g,a,g,fSharp,     e,c,e,     a,a,b,a,g,        fSharp,d,fSharp,   b,b,C,b,a,        g,e,d,d,      e,a,fSharp,   g,b,     g,g,g,     fSharp,fSharp,   g,fSharp,e,     d,a,     b,a,a,g,g,      D,d,d,d,     e,a,fSharp,   g,  R, R};
- * int beats[]  = {l4,  l4, l8,l8,l8,l8,    l4,l4,l4,  l4,l8,l8,l8,l8,   l4,l4,l4,          l4,l8,l8,l8,l8,   l4,l4,l8,l8,  l4,l4,l4,     l2,l4,   l4,l4,l4,  l4,l2,           l4,l4,l4,       l2,l4,   l4,l8,l8,l8,l8, l4,l4,l8,l8, l4,l4,l4,     l2, l1,l1};
+/*
+ * The melody should be initialize as follows:
+ * The first array of integers should contain the notes(see definition above).
+ * The second one should contain the length of the appropriate note.
+ * The array of notes MUST end with THE_END symbol.
  */
-
-// MELODY and TIMING  =======================================
-//  melody[] is an array of notes, accompanied by beats[], 
-//  which sets each note's relative length (higher #, longer note) 
 int MCmelody[] = {d,   g,g,a,g,fSharp,     e,c,e,     a,a,b,a,g,        fSharp,d,fSharp,   b,b,C,b,a,        g,e,d,d,      e,a,fSharp,   g,b,     g,g,g,     fSharp,fSharp,   g,fSharp,e,     d,a,     b,a,a,g,g,      D,d,d,d,     e,a,fSharp,   g,  R, R, THE_END};
 int MCbeats[]  = {l4,  l4, l8,l8,l8,l8,    l4,l4,l4,  l4,l8,l8,l8,l8,   l4,l4,l4,          l4,l8,l8,l8,l8,   l4,l4,l8,l8,  l4,l4,l4,     l2,l4,   l4,l4,l4,  l4,l2,           l4,l4,l4,       l2,l4,   l4,l8,l8,l8,l8, l4,l4,l8,l8, l4,l4,l4,     l2, l1,l1};
-int MCMAX_COUNT = sizeof(MCmelody) / 2; // Melody length, for looping.
 
 int JBmelody[] = {e,e,e,   e,e,e,    e,g,c,d,      e,    f,f,f,f,      f,e,e,e,e,        e,d,d,e,       d,g,    e,e,e,    e,e,e,     e,g,c,d,      e,  f,f,f,f,     f,e,e,e,e,      g,g,f,d,     c,  R, R, THE_END};
 int JBbeats[]  = {l4,l4,l2, l4,l4,l2, l4,l4,l3,l8, l1,   l4,l4,l3,l8,  l4,l4,l4,l8,l8,   l4,l4,l4,l4,   l2,l2,  l4,l4,l2, l4,l4,l2,  l4,l4,l3,l8,  l1, l4,l4,l4,l4, l4,l4,l4,l8,l8, l4,l4,l4,l4, l1, l1,l1};
-int JBMAX_COUNT = sizeof(JBmelody) / 2; // Melody length, for looping.
 
 int* mels[] = {MCmelody, JBmelody};
 int* bs[] = {MCbeats, JBbeats};
 
-// Set overall tempo
+// The tempo for melodies
 long MCtempo = 25000;
 long JBtempo = 15000;
 
@@ -136,39 +109,8 @@ for(int i = 0; i < 2; i++){
 }
 
 
-
-
 int getLength(int* arr){
   int i = 0;
   while(arr[i++] != THE_END);
   return i-1;
 }
-
-/*
- * NOTES
- * The program purports to hold a tone for 'duration' microseconds.
- *  Lies lies lies! It holds for at least 'duration' microseconds, _plus_
- *  any overhead created by incremeting elapsed_time (could be in excess of 
- *  3K microseconds) _plus_ overhead of looping and two digitalWrites()
- *  
- * As a result, a tone of 'duration' plays much more slowly than a rest
- *  of 'duration.' rest_count creates a loop variable to bring 'rest' beats 
- *  in line with 'tone' beats of the same length. 
- * 
- * rest_count will be affected by chip architecture and speed, as well as 
- *  overhead from any program mods. Past behavior is no guarantee of future 
- *  performance. Your mileage may vary. Light fuse and get away.
- *  
- * This could use a number of enhancements:
- * ADD code to let the programmer specify how many times the melody should
- *     loop before stopping
- * ADD another octave
- * MOVE tempo, pause, and rest_count to #define statements
- * RE-WRITE to include volume, using analogWrite, as with the second program at
- *          http://www.arduino.cc/en/Tutorial/PlayMelody
- * ADD code to make the tempo settable by pot or other input device
- * ADD code to take tempo or volume settable by serial communication 
- *          (Requires 0005 or higher.)
- * ADD code to create a tone offset (higer or lower) through pot etc
- * REPLACE random melody with opening bars to 'Smoke on the Water'
- */
